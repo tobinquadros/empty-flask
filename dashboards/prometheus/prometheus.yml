@@ -1,0 +1,34 @@
+global:
+  scrape_interval: 10s 
+  scrape_timeout: 10s
+  evaluation_interval: 10s
+  external_labels:
+      monitor: 'empty-flask'
+
+rule_files:
+  - 'alert.rules'
+  - 'prometheus.rules'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets:
+        - 'alertmanager:9093'
+        - 'cadvisor:8080'
+        - 'grafana:3000'
+        - 'node-exporter:9100'
+        - 'prometheus:9090'
+  - job_name: 'app'
+    honor_labels: true
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+        # - 'app:5000'
+        - 'app:8000'
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: 
+      - 'alertmanager:9093'
+

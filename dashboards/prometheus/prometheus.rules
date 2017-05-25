@@ -1,0 +1,1 @@
+request_rate = rate(request_processing_seconds_count[1m])
