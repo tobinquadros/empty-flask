@@ -7,7 +7,14 @@ app:
 	docker-compose up app
 
 test:
-	docker-compose run app /code/bin/run_tests
+	docker-compose run --rm app /code/bin/run_tests
+
+perf:
+	docker-compose up -d app
+	sleep 3
+	docker-compose exec app pyflame -s 1 -p 9 -o profile.txt
+	bin/flamegraph.pl < profile.txt > profile.svg
+	open -a "Google Chrome" profile.svg
 
 build:
 	docker image build -t $(IMAGE_NAME) .

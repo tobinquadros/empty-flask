@@ -9,6 +9,7 @@ services:
     ports:
       - ${HOST_PORT}:${CONTAINER_PORT}
       - 8000:8000
+    privileged: true # used for perf tests
     volumes:
       - .:/code
 
